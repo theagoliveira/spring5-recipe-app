@@ -1,0 +1,14 @@
+{
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Spring Boot-Spring5RecipeAppApplication<spring5-recipe-app>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "console": "internalConsole",
+      "mainClass": "guru.springframework.spring5recipeapp.Spring5RecipeAppApplication",
+      "projectName": "spring5-recipe-app",
+      "args": ""
+    }
+  ]
+}
