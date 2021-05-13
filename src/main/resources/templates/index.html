@@ -8,6 +8,61 @@
 
   <body>
     <h1>My Recipes!</h1>
+
+    <div th:each="recipe : ${recipes}">
+      <p>
+        <span><strong>ID: </strong></span>
+        <span th:text="${recipe.id}">TEXT</span>
+      </p>
+      <p>
+        <span><strong>Description: </strong></span>
+        <span th:text="${recipe.description}">TEXT</span>
+      </p>
+      <p>
+        <span><strong>Prep Time: </strong></span>
+        <span th:text="${recipe.prepTime} + ' minutes'">TEXT</span>
+      </p>
+      <p>
+        <span><strong>Cook Time: </strong></span>
+        <span th:text="${recipe.cookTime} + ' minutes'">TEXT</span>
+      </p>
+      <p>
+        <span><strong>Servings: </strong></span>
+        <span th:text="${recipe.servings}">TEXT</span>
+      </p>
+      <p>
+        <span><strong>Source: </strong></span>
+        <span th:text="${recipe.source}">TEXT</span>
+      </p>
+      <p>
+        <span><strong>URL: </strong></span>
+        <a th:text="${recipe.url}" th:href="${recipe.url}">TEXT</a>
+      </p>
+      <p>
+        <span><strong>Directions: </strong></span>
+      </p>
+      <ol th:utext="${recipe.directions}">TEXT</ol>
+      <p>
+        <span><strong>Difficulty: </strong></span>
+        <span th:text="${recipe.difficulty}">TEXT</span>
+      </p>
+      <p>
+        <span><strong>Ingredients: </strong></span>
+      </p>
+      <ul>
+        <li th:each="ingredient : ${recipe.ingredients}"
+            th:text="(${ingredient.amount == null} ? '' : ${ingredient.amount}  + ' ') + (${ingredient.uom == null} ? '' : ${ingredient.uom.description} + ' ') + ${ingredient.description}">
+        </li>
+      </ul>
+      <p>
+        <span><strong>Categories: </strong></span>
+      </p>
+      <ul>
+        <li th:each="category : ${recipe.categories}"
+            th:text="${category.description}">
+        </li>
+      </ul>
+    </div>
   </body>
 
 </html>
