@@ -33,6 +33,11 @@ public class DataLoader implements CommandLineRunner {
     }
 
     private void loadData() {
+        var tspUom = unitOfMeasureRepository.findByDescription("teaspoon").get();
+        var tbspUom = unitOfMeasureRepository.findByDescription("tablespoon").get();
+        var dashUom = unitOfMeasureRepository.findByDescription("dash").get();
+
+        var mexicanCategory = categoryRepository.findByDescription("Mexican").get();
 
         var perfectGuacamole = new Recipe();
         perfectGuacamole.setDescription(
@@ -76,75 +81,65 @@ public class DataLoader implements CommandLineRunner {
         var ripeAvocados = new Ingredient();
         ripeAvocados.setAmount(BigDecimal.valueOf(2));
         ripeAvocados.setDescription("ripe avocados");
-        ripeAvocados.setRecipe(perfectGuacamole);
         ripeAvocados.setUom(null);
 
         var salt = new Ingredient();
         salt.setAmount(BigDecimal.valueOf(0.25));
         salt.setDescription("salt, more to taste");
-        salt.setRecipe(perfectGuacamole);
-        salt.setUom(unitOfMeasureRepository.findByDescription("teaspoon").get());
+        salt.setUom(tspUom);
 
         var freshLimeJuice = new Ingredient();
         freshLimeJuice.setAmount(BigDecimal.valueOf(1));
         freshLimeJuice.setDescription("fresh lime juice or lemon juice");
-        freshLimeJuice.setRecipe(perfectGuacamole);
-        freshLimeJuice.setUom(unitOfMeasureRepository.findByDescription("tablespoon").get());
+        freshLimeJuice.setUom(tbspUom);
 
         var mincedRedOnion = new Ingredient();
         mincedRedOnion.setAmount(BigDecimal.valueOf(1));
         mincedRedOnion.setDescription("minced red onion or thinly sliced green onion");
-        mincedRedOnion.setRecipe(perfectGuacamole);
-        mincedRedOnion.setUom(unitOfMeasureRepository.findByDescription("tablespoon").get());
+        mincedRedOnion.setUom(tbspUom);
 
         var serranoChiles = new Ingredient();
         serranoChiles.setAmount(BigDecimal.valueOf(2));
         serranoChiles.setDescription("serrano chiles, stems and seeds removed, minced");
-        serranoChiles.setRecipe(perfectGuacamole);
         serranoChiles.setUom(null);
 
         var cilantro = new Ingredient();
         cilantro.setAmount(BigDecimal.valueOf(2));
         cilantro.setDescription("cilantro (leaves and tender stems), finely chopped");
-        cilantro.setRecipe(perfectGuacamole);
-        cilantro.setUom(unitOfMeasureRepository.findByDescription("tablespoon").get());
+        cilantro.setUom(tbspUom);
 
         var freshlyGratedBlackPepper = new Ingredient();
         freshlyGratedBlackPepper.setAmount(BigDecimal.valueOf(1));
         freshlyGratedBlackPepper.setDescription("freshly grated black pepper");
-        freshlyGratedBlackPepper.setRecipe(perfectGuacamole);
-        freshlyGratedBlackPepper.setUom(unitOfMeasureRepository.findByDescription("dash").get());
+        freshlyGratedBlackPepper.setUom(dashUom);
 
         var ripeTomato = new Ingredient();
         ripeTomato.setAmount(BigDecimal.valueOf(0.5));
         ripeTomato.setDescription("ripe tomato, seeds and pulp removed, chopped");
-        ripeTomato.setRecipe(perfectGuacamole);
         ripeTomato.setUom(null);
 
         var redRadishes = new Ingredient();
         redRadishes.setAmount(null);
         redRadishes.setDescription("red radishes or jicama, to garnish");
-        redRadishes.setRecipe(perfectGuacamole);
         redRadishes.setUom(null);
 
         var tortillaChips = new Ingredient();
         tortillaChips.setAmount(null);
         tortillaChips.setDescription("tortilla chips, to serve");
-        tortillaChips.setRecipe(perfectGuacamole);
         tortillaChips.setUom(null);
 
-        perfectGuacamole.getIngredients().add(ripeAvocados);
-        perfectGuacamole.getIngredients().add(salt);
-        perfectGuacamole.getIngredients().add(freshLimeJuice);
-        perfectGuacamole.getIngredients().add(mincedRedOnion);
-        perfectGuacamole.getIngredients().add(serranoChiles);
-        perfectGuacamole.getIngredients().add(cilantro);
-        perfectGuacamole.getIngredients().add(freshlyGratedBlackPepper);
-        perfectGuacamole.getIngredients().add(ripeTomato);
-        perfectGuacamole.getIngredients().add(redRadishes);
-        perfectGuacamole.getIngredients().add(tortillaChips);
+        perfectGuacamole.addIngredient(ripeAvocados);
+        perfectGuacamole.addIngredient(salt);
+        perfectGuacamole.addIngredient(freshLimeJuice);
+        perfectGuacamole.addIngredient(mincedRedOnion);
+        perfectGuacamole.addIngredient(serranoChiles);
+        perfectGuacamole.addIngredient(cilantro);
+        perfectGuacamole.addIngredient(freshlyGratedBlackPepper);
+        perfectGuacamole.addIngredient(ripeTomato);
+        perfectGuacamole.addIngredient(redRadishes);
+        perfectGuacamole.addIngredient(tortillaChips);
 
-        perfectGuacamole.getCategories().add(categoryRepository.findByDescription("Mexican").get());
+        perfectGuacamole.getCategories().add(mexicanCategory);
 
         recipeRepository.save(perfectGuacamole);
     }
