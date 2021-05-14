@@ -11,7 +11,9 @@ import guru.springframework.spring5recipeapp.domain.Recipe;
 import guru.springframework.spring5recipeapp.repositories.CategoryRepository;
 import guru.springframework.spring5recipeapp.repositories.RecipeRepository;
 import guru.springframework.spring5recipeapp.repositories.UnitOfMeasureRepository;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Component
 public class DataLoader implements CommandLineRunner {
 
@@ -33,12 +35,14 @@ public class DataLoader implements CommandLineRunner {
     }
 
     private void loadData() {
+        log.debug("Getting UnitOfMeasure and Category objects.");
         var tspUom = unitOfMeasureRepository.findByDescription("teaspoon").get();
         var tbspUom = unitOfMeasureRepository.findByDescription("tablespoon").get();
         var dashUom = unitOfMeasureRepository.findByDescription("dash").get();
 
         var mexicanCategory = categoryRepository.findByDescription("Mexican").get();
 
+        log.debug("Creating Recipe object.");
         var perfectGuacamole = new Recipe();
         perfectGuacamole.setDescription(
             "The best guacamole keeps it simple: just ripe avocados, salt, a squeeze of lime, " +
@@ -78,6 +82,7 @@ public class DataLoader implements CommandLineRunner {
         );
         perfectGuacamole.setDifficulty(Difficulty.EASY);
 
+        log.debug("Creating Ingredient objects.");
         var ripeAvocados = new Ingredient();
         ripeAvocados.setAmount(BigDecimal.valueOf(2));
         ripeAvocados.setDescription("ripe avocados");
@@ -128,6 +133,7 @@ public class DataLoader implements CommandLineRunner {
         tortillaChips.setDescription("tortilla chips, to serve");
         tortillaChips.setUom(null);
 
+        log.debug("Adding ingredients and category to recipe.");
         perfectGuacamole.addIngredient(ripeAvocados);
         perfectGuacamole.addIngredient(salt);
         perfectGuacamole.addIngredient(freshLimeJuice);
@@ -141,6 +147,7 @@ public class DataLoader implements CommandLineRunner {
 
         perfectGuacamole.getCategories().add(mexicanCategory);
 
+        log.debug("Saving recipe.");
         recipeRepository.save(perfectGuacamole);
     }
 

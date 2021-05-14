@@ -5,7 +5,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import guru.springframework.spring5recipeapp.services.RecipeServiceImpl;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Controller
 public class IndexController {
 
@@ -17,8 +19,10 @@ public class IndexController {
 
     @RequestMapping({"", "/", "/index"})
     public String getIndexPage(Model model) {
+        log.info("Index page requested.");
 
         model.addAttribute("recipes", recipeService.findAll());
+        log.debug("Recipes added to model. Returning.");
 
         return "index";
     }
