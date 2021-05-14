@@ -18,9 +18,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
+@NoArgsConstructor
 public class Recipe {
 
     @Id
@@ -53,6 +55,10 @@ public class Recipe {
     @ManyToMany
     @JoinTable(name = "recipe_category", joinColumns = @JoinColumn(name = "recipe_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
     private Set<Category> categories = new HashSet<>();
+
+    public Recipe(String name) {
+        this.name = name;
+    }
 
     public Recipe addIngredient(Ingredient ingredient) {
         ingredient.setRecipe(this);
