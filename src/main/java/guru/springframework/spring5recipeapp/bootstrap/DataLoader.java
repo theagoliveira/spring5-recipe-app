@@ -40,10 +40,12 @@ public class DataLoader implements CommandLineRunner {
         var tbspUom = unitOfMeasureRepository.findByDescription("tablespoon").get();
         var dashUom = unitOfMeasureRepository.findByDescription("dash").get();
 
-        var mexicanCategory = categoryRepository.findByDescription("Mexican").get();
+        var mexicanCategory = categoryRepository.findByDescription("mexican").get();
+        var americanCategory = categoryRepository.findByDescription("american").get();
 
         log.debug("Creating Recipe object.");
         var perfectGuacamole = new Recipe();
+        perfectGuacamole.setName("Perfect Guacamole");
         perfectGuacamole.setDescription(
             "The best guacamole keeps it simple: just ripe avocados, salt, a squeeze of lime, " +
                 "onions, chiles, cilantro, and some chopped tomato. Serve it as a dip at your " +
@@ -114,7 +116,7 @@ public class DataLoader implements CommandLineRunner {
         cilantro.setUom(tbspUom);
 
         var freshlyGratedBlackPepper = new Ingredient();
-        freshlyGratedBlackPepper.setAmount(BigDecimal.valueOf(1));
+        freshlyGratedBlackPepper.setAmount(null);
         freshlyGratedBlackPepper.setDescription("freshly grated black pepper");
         freshlyGratedBlackPepper.setUom(dashUom);
 
@@ -146,6 +148,7 @@ public class DataLoader implements CommandLineRunner {
         perfectGuacamole.addIngredient(tortillaChips);
 
         perfectGuacamole.getCategories().add(mexicanCategory);
+        perfectGuacamole.getCategories().add(americanCategory);
 
         log.debug("Saving recipe.");
         recipeRepository.save(perfectGuacamole);

@@ -1,7 +1,7 @@
-INSERT INTO category (description) VALUES ('American');
-INSERT INTO category (description) VALUES ('Italian');
-INSERT INTO category (description) VALUES ('Mexican');
-INSERT INTO category (description) VALUES ('Fast Food');
+INSERT INTO category (description) VALUES ('american');
+INSERT INTO category (description) VALUES ('italian');
+INSERT INTO category (description) VALUES ('mexican');
+INSERT INTO category (description) VALUES ('fast food');
 INSERT INTO unit_of_measure (description) VALUES ('teaspoon');
 INSERT INTO unit_of_measure (description) VALUES ('tablespoon');
 INSERT INTO unit_of_measure (description) VALUES ('cup');
