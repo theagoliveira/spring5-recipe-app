@@ -21,6 +21,8 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public Set<Recipe> findAll() {
+        log.info("Inside findAll() method of RecipeService");
+
         Set<Recipe> recipeSet = new HashSet<>();
 
         recipeRepository.findAll().iterator().forEachRemaining(recipeSet::add);
