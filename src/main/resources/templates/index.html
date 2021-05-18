@@ -36,67 +36,15 @@
                   </thead>
                   <tbody>
                     <tr th:each="recipe : ${recipes}">
-                      <th th:text="${recipe.id}" scope="row">ID</th>
+                      <th scope="row">
+                        <a th:text="${recipe.id}"
+                           th:href="'/recipes/' + ${recipe.id}">ID</a>
+                      </th>
                       <td th:text="${recipe.name}">Name</td>
                     </tr>
                   </tbody>
                 </table>
               </div>
-
-
-              <!--
-              <h4 class="card-title" th:text="${recipe.name}">TEXT</h4>
-              <h6 class="card-subtitle mb-3 text-muted">from
-                <a th:text="${recipe.source}" th:href="${recipe.url}">TEXT</a>
-              </h6>
-              <p class="card-text">
-                <em th:text="${recipe.description}">TEXT</em>
-              </p>
-              <table class="table table-borderless table-sm"
-                     style="width: auto; table-layout: auto">
-                <tbody>
-                  <tr>
-                    <th scope="row">Difficulty</th>
-                    <td th:text="${#strings.toLowerCase(recipe.difficulty)}">
-                      TEXT</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Prep Time</th>
-                    <td th:text="${recipe.prepTime} + ' minutes'">TEXT</td>
-                  </tr>
-                  <tr th:if="${recipe.cookTime} > 0">
-                    <th scope="row">Cook Time</th>
-                    <td th:text="${recipe.cookTime} + ' minutes'">TEXT</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Servings</th>
-                    <td th:text="${recipe.servings}">TEXT</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Categories</th>
-                    <td><span th:each="category,iter : ${recipe.categories}"
-                            th:text="${category.description} + (${iter.index} == ${iter.size} - 1 ? '' : ', ')"></span>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              <div style="padding: .25rem .25rem;">
-                <p class="card-text">
-                  <span><strong>Ingredients</strong></span>
-                </p>
-                <ul>
-                  <li th:each="ingredient : ${recipe.ingredients}"
-                      th:text="(${ingredient.amount == null} ? '' : (${ingredient.amount % 1 == 0} ? ${#numbers.formatDecimal(ingredient.amount, 0, 0)} : ${#numbers.formatDecimal(ingredient.amount, 1, 2)})  + ' ') + (${ingredient.uom == null} ? '' : ${ingredient.uom.description} + (${ingredient.amount != 1 && ingredient.amount != null} ? 's' : '') + ' of ') + ${ingredient.description}">
-                  </li>
-                </ul>
-              </div>
-              <div style="padding: .25rem .25rem;">
-                <p class="card-text">
-                  <span><strong>Directions</strong></span>
-                </p>
-                <ol th:utext="${recipe.directions}">TEXT</ol>
-              </div>
-               -->
             </div>
           </div>
         </div>
