@@ -3,8 +3,13 @@ package guru.springframework.spring5recipeapp.services;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.transaction.Transactional;
+
 import org.springframework.stereotype.Service;
 
+import guru.springframework.spring5recipeapp.commands.RecipeCommand;
+import guru.springframework.spring5recipeapp.converters.RecipeCommandToRecipe;
+import guru.springframework.spring5recipeapp.converters.RecipeToRecipeCommand;
 import guru.springframework.spring5recipeapp.domain.Recipe;
 import guru.springframework.spring5recipeapp.repositories.RecipeRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -14,9 +19,15 @@ import lombok.extern.slf4j.Slf4j;
 public class RecipeServiceImpl implements RecipeService {
 
     private final RecipeRepository recipeRepository;
+    private final RecipeCommandToRecipe recipeCommandToRecipe;
+    private final RecipeToRecipeCommand recipeToRecipeCommand;
 
-    public RecipeServiceImpl(RecipeRepository recipeRepository) {
+    public RecipeServiceImpl(RecipeRepository recipeRepository,
+                             RecipeCommandToRecipe recipeCommandToRecipe,
+                             RecipeToRecipeCommand recipeToRecipeCommand) {
         this.recipeRepository = recipeRepository;
+        this.recipeCommandToRecipe = recipeCommandToRecipe;
+        this.recipeToRecipeCommand = recipeToRecipeCommand;
     }
 
     @Override
@@ -33,6 +44,21 @@ public class RecipeServiceImpl implements RecipeService {
         recipeRepository.findAll().iterator().forEachRemaining(recipeSet::add);
 
         return recipeSet;
+    }
+
+    @Override
+    @Transactional
+    public RecipeCommand saveCommand(RecipeCommand command) {
+        var detachedRecipe = recipeCommandToRecipe.convert(command);
+
+        if (detachedRecipe != null) {
+            var savedRecipe = recipeRepository.save(detachedRecipe);
+            log.debug("Saved recipe with ID " + savedRecipe.getId());
+            return recipeToRecipeCommand.convert(savedRecipe);
+        } else {
+            log.debug("Recipe not saved because command is null");
+            return null;
+        }
     }
 
 }
