@@ -2,6 +2,7 @@ package guru.springframework.spring5recipeapp.controllers;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
@@ -49,7 +50,8 @@ class RecipeControllerTest {
         // then
         mockMvc.perform(get("/recipes/1"))
                .andExpect(status().isOk())
-               .andExpect(view().name("recipes/show"));
+               .andExpect(view().name("recipes/show"))
+               .andExpect(model().attributeExists("recipe"));
     }
 
 }
