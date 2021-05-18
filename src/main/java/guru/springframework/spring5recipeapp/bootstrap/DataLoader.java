@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import guru.springframework.spring5recipeapp.domain.Difficulty;
 import guru.springframework.spring5recipeapp.domain.Ingredient;
+import guru.springframework.spring5recipeapp.domain.Notes;
 import guru.springframework.spring5recipeapp.domain.Recipe;
 import guru.springframework.spring5recipeapp.repositories.CategoryRepository;
 import guru.springframework.spring5recipeapp.repositories.RecipeRepository;
@@ -36,6 +37,7 @@ public class DataLoader implements CommandLineRunner {
 
     private void loadData() {
         log.debug("Getting UnitOfMeasure and Category objects.");
+
         var tspUom = unitOfMeasureRepository.findByDescription("teaspoon").get();
         var tbspUom = unitOfMeasureRepository.findByDescription("tablespoon").get();
         var dashUom = unitOfMeasureRepository.findByDescription("dash").get();
@@ -44,6 +46,7 @@ public class DataLoader implements CommandLineRunner {
         var americanCategory = categoryRepository.findByDescription("american").get();
 
         log.debug("Creating Ingredient objects.");
+
         var ripeAvocados = new Ingredient();
         ripeAvocados.setAmount(BigDecimal.valueOf(2));
         ripeAvocados.setDescription("ripe avocados");
@@ -144,7 +147,24 @@ public class DataLoader implements CommandLineRunner {
         tortillaChipsCopy.setDescription("tortilla chips, to serve");
         tortillaChipsCopy.setUom(null);
 
-        log.debug("Creating Recipe object.");
+        log.debug("Creating Notes objects.");
+
+        var avocadoNotes = new Notes();
+        avocadoNotes.setRecipeNotes(
+            "The trick to making perfect guacamole is using ripe avocados that are just the right" +
+                " amount of ripeness. Not ripe enough and the avocado will be hard and tasteless." +
+                " Too ripe and the taste will be off."
+        );
+
+        var avocadoNotesCopy = new Notes();
+        avocadoNotesCopy.setRecipeNotes(
+            "The trick to making perfect guacamole is using ripe avocados that are just the right" +
+                " amount of ripeness. Not ripe enough and the avocado will be hard and tasteless." +
+                " Too ripe and the taste will be off."
+        );
+
+        log.debug("Creating Recipe objects.");
+
         var perfectGuacamole = new Recipe();
         perfectGuacamole.setName("Perfect Guacamole");
         perfectGuacamole.setDescription(
@@ -184,8 +204,7 @@ public class DataLoader implements CommandLineRunner {
                 "</li>"
         );
         perfectGuacamole.setDifficulty(Difficulty.EASY);
-
-        log.debug("Adding ingredients and category to recipe.");
+        perfectGuacamole.setNotes(avocadoNotes);
         perfectGuacamole.addIngredient(ripeAvocados);
         perfectGuacamole.addIngredient(salt);
         perfectGuacamole.addIngredient(freshLimeJuice);
@@ -238,6 +257,7 @@ public class DataLoader implements CommandLineRunner {
                 "</li>"
         );
         perfectGuacamoleCopy.setDifficulty(Difficulty.EASY);
+        perfectGuacamoleCopy.setNotes(avocadoNotesCopy);
         perfectGuacamoleCopy.addIngredient(ripeAvocadosCopy);
         perfectGuacamoleCopy.addIngredient(saltCopy);
         perfectGuacamoleCopy.addIngredient(freshLimeJuiceCopy);
@@ -252,6 +272,7 @@ public class DataLoader implements CommandLineRunner {
         perfectGuacamoleCopy.getCategories().add(americanCategory);
 
         log.debug("Saving recipes.");
+
         recipeRepository.save(perfectGuacamole);
         recipeRepository.save(perfectGuacamoleCopy);
     }
