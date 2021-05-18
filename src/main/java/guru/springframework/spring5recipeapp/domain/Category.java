@@ -10,10 +10,12 @@ import javax.persistence.ManyToMany;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 @Data
 @EqualsAndHashCode(exclude = {"recipes"})
 @Entity
+@NoArgsConstructor
 public class Category {
 
     @Id
@@ -24,5 +26,10 @@ public class Category {
 
     @ManyToMany(mappedBy = "categories")
     private Set<Recipe> recipes;
+
+    public Category(Long id, String description) {
+        this.id = id;
+        this.description = description;
+    }
 
 }

@@ -14,10 +14,12 @@ import javax.persistence.OneToOne;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 @Data
 @EqualsAndHashCode(exclude = {"recipe"})
 @Entity
+@NoArgsConstructor
 public class Ingredient {
 
     @Id
@@ -34,6 +36,12 @@ public class Ingredient {
 
     @ManyToOne
     private Recipe recipe;
+
+    public Ingredient(Long id, String description, BigDecimal amount) {
+        this.id = id;
+        this.description = description;
+        this.amount = amount;
+    }
 
     @Override
     public String toString() {

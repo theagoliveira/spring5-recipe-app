@@ -9,10 +9,12 @@ import javax.persistence.OneToOne;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 @Data
 @EqualsAndHashCode(exclude = {"recipe"})
 @Entity
+@NoArgsConstructor
 public class Notes {
 
     @Id
@@ -24,5 +26,10 @@ public class Notes {
 
     @Lob
     private String recipeNotes;
+
+    public Notes(Long id, String recipeNotes) {
+        this.id = id;
+        this.recipeNotes = recipeNotes;
+    }
 
 }
