@@ -1,5 +1,12 @@
 package guru.springframework.spring5recipeapp.domain;
 
 public enum Difficulty {
-    EASY, MODERATE, KIND_OF_HARD, HARD
+
+    EASY, MEDIUM, HARD;
+
+    @Override
+    public String toString() {
+        return super.toString().toLowerCase();
+    }
+
 }

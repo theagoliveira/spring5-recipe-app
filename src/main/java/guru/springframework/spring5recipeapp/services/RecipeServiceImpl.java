@@ -36,6 +36,12 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
+    @Transactional
+    public RecipeCommand findCommandById(Long id) {
+        return recipeToRecipeCommand.convert(this.findById(id));
+    }
+
+    @Override
     public Set<Recipe> findAll() {
         log.info("Inside findAll() method of RecipeService");
 
@@ -59,6 +65,11 @@ public class RecipeServiceImpl implements RecipeService {
             log.debug("Recipe not saved because command is null");
             return null;
         }
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        recipeRepository.deleteById(id);
     }
 
 }

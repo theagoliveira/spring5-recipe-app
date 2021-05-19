@@ -2,6 +2,7 @@ package guru.springframework.spring5recipeapp.services;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -17,12 +18,15 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import guru.springframework.spring5recipeapp.commands.RecipeCommand;
 import guru.springframework.spring5recipeapp.converters.RecipeCommandToRecipe;
 import guru.springframework.spring5recipeapp.converters.RecipeToRecipeCommand;
 import guru.springframework.spring5recipeapp.domain.Recipe;
 import guru.springframework.spring5recipeapp.repositories.RecipeRepository;
 
 class RecipeServiceImplTest {
+
+    private static final Long ID = 1L;
 
     RecipeServiceImpl recipeService;
 
@@ -46,14 +50,29 @@ class RecipeServiceImplTest {
     @Test
     void findById() {
         Recipe returnRecipe = new Recipe();
-        returnRecipe.setId(1L);
+        returnRecipe.setId(ID);
 
-        when(recipeRepository.findById(1L)).thenReturn(Optional.of(returnRecipe));
+        when(recipeRepository.findById(ID)).thenReturn(Optional.of(returnRecipe));
 
-        Recipe recipe = recipeService.findById(1L);
+        Recipe recipe = recipeService.findById(ID);
 
         assertNotNull(recipe);
-        assertEquals(1L, recipe.getId());
+        assertEquals(ID, recipe.getId());
+        verify(recipeRepository, times(1)).findById(anyLong());
+        verify(recipeRepository, never()).findAll();
+    }
+
+    @Test
+    void findCommandById() {
+        var returnCommand = new RecipeCommand();
+        returnCommand.setId(ID);
+
+        when(recipeToRecipeCommand.convert(any())).thenReturn(returnCommand);
+
+        RecipeCommand command = recipeService.findCommandById(ID);
+
+        assertNotNull(command);
+        assertEquals(returnCommand.getId(), command.getId());
         verify(recipeRepository, times(1)).findById(anyLong());
         verify(recipeRepository, never()).findAll();
     }
@@ -71,6 +90,17 @@ class RecipeServiceImplTest {
         assertEquals(1, recipes.size());
         verify(recipeRepository, times(1)).findAll();
         verify(recipeRepository, never()).findById(anyLong());
+    }
+
+    @Test
+    void deleteById() {
+        // given
+        recipeService.deleteById(ID);
+
+        // when
+
+        // then
+        verify(recipeRepository).deleteById(anyLong());
     }
 
 }

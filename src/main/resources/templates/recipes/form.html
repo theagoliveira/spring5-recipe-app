@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+  <head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
+          crossorigin="anonymous"
+          th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+    <script src="#" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+            crossorigin="anonymous"
+            th:href="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+    <meta charset="UTF-8">
+    <title th:text="'New Recipe — My Recipes!'">TITLE</title>
+  </head>
+
+  <body>
+    <div class="container-fluid" style="margin-top: 20px">
+      <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+          <form th:object="${recipe}" th:action="@{/recipes/}" method="post">
+            <input type="hidden" th:field="*{id}">
+            <div class="card border-primary mb-3">
+              <div class="card-header text-white bg-primary">
+                New Recipe — My Recipes!
+              </div>
+              <div class="card-body text-dark">
+                <div class="row">
+                  <div class="col-md-12 form-group">
+                    <label for="name">Name</label>
+                    <input type="text" class="form-control" th:field="*{name}">
+                  </div>
+                </div>
+                <div class="row mt-3">
+                  <div class="col-md-3 form-group">
+                    <label for="source">Source</label>
+                    <input type="text" class="form-control"
+                           th:field="*{source}">
+                  </div>
+                  <div class="col-md-9 form-group">
+                    <label for="url">URL</label>
+                    <input type="text" class="form-control" th:field="*{url}">
+                  </div>
+                </div>
+                <div class="row mt-3">
+                  <div class="col-md-12 form-group">
+                    <label for="description">Description</label>
+                    <textarea type="text" class="form-control"
+                              th:field="*{description}" />
+                  </div>
+                </div>
+                <div class="row mt-3">
+                  <!-- TODO: <div class="col-md-3 form-group">
+                    <label for="difficulty">Difficulty</label>
+                    <select class="form-control">
+                      <option th:each="difficulty : ${difficulties}"
+                              th:text="${difficulty}">
+                        TEXT
+                      </option>
+                    </select>
+                  </div> -->
+                  <div class="col-md-3 form-group">
+                    <label for="prepTime">Prep Time</label>
+                    <input type="text" class="form-control"
+                           th:field="*{prepTime}">
+                  </div>
+                  <div class="col-md-3 form-group">
+                    <label for="cookTime">Cook Time</label>
+                    <input type="text" class="form-control"
+                           th:field="*{cookTime}">
+                  </div>
+                  <div class="col-md-3 form-group">
+                    <label for="servings">Servings</label>
+                    <input type="text" class="form-control"
+                           th:field="*{servings}">
+                  </div>
+                </div>
+                <!-- TODO: <div class="row mt-3">
+                  <div class="col-md-3 form-group">
+                    <label for="categories">Categories</label>
+                    <select multiple class="form-control">
+                      <option th:each="category : ${categories}"
+                              th:text="${category.description}">
+                        TEXT
+                      </option>
+                    </select>
+                  </div>
+                </div> -->
+                <div class="row mt-3">
+                  <div class="col-md-12 form-group">
+                    <label for="notes.recipeNotes">Notes</label>
+                    <textarea type="text" class="form-control"
+                              th:field="*{notes.recipeNotes}" />
+                  </div>
+                </div>
+                <!-- TODO: <div class="row mt-3">
+                  <div class="col-md-12 form-group">
+                    <label for="ingredients">Ingredients</label>
+                    <textarea type="text" class="form-control"
+                              th:field="*{ingredients}" />
+                  </div>
+                </div> -->
+                <div class="row mt-3 mb-3">
+                  <div class="col-md-12 form-group">
+                    <label for="directions">Directions</label>
+                    <textarea type="text" class="form-control"
+                              th:field="*{directions}" />
+                  </div>
+                </div>
+                <a th:href="'/index'" th:text="'Back'"
+                   class="btn btn-primary">TEXT</a>
+                <button type="submit" class="btn btn-primary">Save</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+
+</html>
