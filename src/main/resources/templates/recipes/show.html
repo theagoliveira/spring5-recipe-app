@@ -84,12 +84,13 @@
                 </p>
                 <ol th:utext="${recipe.directions}">TEXT</ol>
               </div>
-              <a th:href="'/index'" th:text="'Back'"
-                 class="btn btn-primary">TEXT</a>
+              <a th:href="'/index'" class="btn btn-primary">Home</a>
+              <a th:href="'/recipes/' + ${recipe.id} + '/ingredients'"
+                 class="btn btn-primary">Ingredients</a>
               <a th:href="'/recipes/' + ${recipe.id} + '/edit'"
-                 th:text="'Edit'" class="btn btn-primary">TEXT</a>
+                 class="btn btn-primary">Edit</a>
               <a th:href="'/recipes/' + ${recipe.id} + '/delete'"
-                 th:text="'Delete'" class="btn btn-primary">TEXT</a>
+                 class="btn btn-primary">Delete</a>
             </div>
           </div>
         </div>
