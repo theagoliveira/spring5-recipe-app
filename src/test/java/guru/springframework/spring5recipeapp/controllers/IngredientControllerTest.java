@@ -20,7 +20,9 @@ import guru.springframework.spring5recipeapp.commands.RecipeCommand;
 import guru.springframework.spring5recipeapp.services.IngredientService;
 import guru.springframework.spring5recipeapp.services.RecipeService;
 
-public class IngredientControllerTest {
+class IngredientControllerTest {
+
+    private static final String RECIPE_NAME = "name";
 
     @Mock
     RecipeService recipeService;
@@ -58,19 +60,24 @@ public class IngredientControllerTest {
     @Test
     void show() throws Exception {
         // given
-        var command = new IngredientCommand();
+        var ingredientCommand = new IngredientCommand();
+        var recipeCommand = new RecipeCommand();
+        recipeCommand.setName(RECIPE_NAME);
 
         // when
         when(ingredientService.findCommandByIdAndRecipeId(anyLong(), anyLong())).thenReturn(
-            command
+            ingredientCommand
         );
+        when(recipeService.findCommandById(anyLong())).thenReturn(recipeCommand);
         mockMvc.perform(get("/recipes/1/ingredients/1"))
                .andExpect(status().isOk())
                .andExpect(view().name("recipes/ingredients/show"))
-               .andExpect(model().attributeExists("ingredient"));
+               .andExpect(model().attributeExists("ingredient"))
+               .andExpect(model().attributeExists("recipeName"));
 
         // then
         verify(ingredientService).findCommandByIdAndRecipeId(anyLong(), anyLong());
+        verify(recipeService).findCommandById(anyLong());
     }
 
 }
