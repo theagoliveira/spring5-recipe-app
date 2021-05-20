@@ -1,6 +1,7 @@
 package guru.springframework.spring5recipeapp.domain;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -75,6 +76,13 @@ public class Recipe {
         if (notes != null) {
             notes.setRecipe(this);
         }
+    }
+
+    public Optional<Ingredient> getIngredientById(Long ingredientId) {
+        return this.getIngredients()
+                   .stream()
+                   .filter(i -> i.getId().equals(ingredientId))
+                   .findFirst();
     }
 
 }

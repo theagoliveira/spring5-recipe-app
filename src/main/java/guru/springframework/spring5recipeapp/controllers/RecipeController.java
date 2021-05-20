@@ -26,6 +26,7 @@ public class RecipeController {
     public String showRecipe(@PathVariable Long id, Model model) {
         var recipe = recipeService.findById(id);
         model.addAttribute(RECIPE_STR, recipe);
+
         return "recipes/show";
     }
 
@@ -33,6 +34,7 @@ public class RecipeController {
     public String newRecipe(Model model) {
         var recipe = new RecipeCommand();
         model.addAttribute(RECIPE_STR, recipe);
+
         return "recipes/form";
     }
 
@@ -40,6 +42,7 @@ public class RecipeController {
     public String editRecipe(@PathVariable Long id, Model model) {
         var recipe = recipeService.findCommandById(id);
         model.addAttribute(RECIPE_STR, recipe);
+
         return "recipes/form";
     }
 
@@ -53,6 +56,7 @@ public class RecipeController {
     @GetMapping("/{id}/delete")
     public String destroyRecipe(@PathVariable Long id) {
         recipeService.deleteById(id);
+
         return "redirect:/index";
     }
 

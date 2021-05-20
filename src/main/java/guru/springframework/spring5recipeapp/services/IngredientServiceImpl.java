@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import guru.springframework.spring5recipeapp.commands.IngredientCommand;
 import guru.springframework.spring5recipeapp.converters.IngredientCommandToIngredient;
 import guru.springframework.spring5recipeapp.converters.IngredientToIngredientCommand;
-import guru.springframework.spring5recipeapp.domain.Ingredient;
 import guru.springframework.spring5recipeapp.domain.Recipe;
 import guru.springframework.spring5recipeapp.repositories.RecipeRepository;
 import guru.springframework.spring5recipeapp.repositories.UnitOfMeasureRepository;
@@ -19,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class IngredientServiceImpl implements IngredientService {
 
+    private static final String NOT_FOUND = " not found.";
     RecipeRepository recipeRepository;
     UnitOfMeasureRepository unitOfMeasureRepository;
     IngredientToIngredientCommand ingredientToIngredientCommand;
@@ -39,29 +39,19 @@ public class IngredientServiceImpl implements IngredientService {
         Optional<Recipe> optionalRecipe = recipeRepository.findById(recipeId);
 
         if (!optionalRecipe.isPresent()) {
-            log.error("Recipe with ID " + recipeId + " not found.");
+            log.error("Recipe with ID " + recipeId + NOT_FOUND);
             return null;
         }
 
         var recipe = optionalRecipe.get();
+        var optIngredient = recipe.getIngredientById(id);
 
-        Optional<IngredientCommand> optionalCommand = recipe.getIngredients()
-                                                            .stream()
-                                                            .filter(
-                                                                ingredient -> ingredient.getId()
-                                                                                        .equals(id)
-                                                            )
-                                                            .map(
-                                                                ingredientToIngredientCommand::convert
-                                                            )
-                                                            .findFirst();
-
-        if (!optionalCommand.isPresent()) {
-            log.error("IngredientCommand with ID " + id + " not found.");
+        if (!optIngredient.isPresent()) {
+            log.error("IngredientCommand with ID " + id + NOT_FOUND);
             return null;
         }
 
-        return optionalCommand.get();
+        return ingredientToIngredientCommand.convert(optIngredient.get());
     }
 
     @Override
@@ -72,22 +62,20 @@ public class IngredientServiceImpl implements IngredientService {
         Optional<Recipe> optionalRecipe = recipeRepository.findById(recipeId);
 
         if (!optionalRecipe.isPresent()) {
-            log.error("Recipe with ID " + recipeId + " not found.");
+            log.error("Recipe with ID " + recipeId + NOT_FOUND);
             return null;
         } else {
             var recipe = optionalRecipe.get();
-            Optional<Ingredient> optionalIngredient = recipe.getIngredients()
-                                                            .stream()
-                                                            .filter(
-                                                                ingredient -> ingredient.getId()
-                                                                                        .equals(id)
-                                                            )
-                                                            .findFirst();
+            var optIngredient = recipe.getIngredientById(id);
 
-            if (!optionalIngredient.isPresent()) {
-                recipe.addIngredient(ingredientCommandToIngredient.convert(command));
+            if (!optIngredient.isPresent()) {
+                var ingredient = ingredientCommandToIngredient.convert(command);
+                if (ingredient != null) {
+                    ingredient.setRecipe(recipe);
+                    recipe.addIngredient(ingredient);
+                }
             } else {
-                var ingredient = optionalIngredient.get();
+                var ingredient = optIngredient.get();
                 ingredient.setDescription(command.getDescription());
                 ingredient.setAmount(command.getAmount());
                 ingredient.setUom(
@@ -98,14 +86,25 @@ public class IngredientServiceImpl implements IngredientService {
             }
 
             var savedRecipe = recipeRepository.save(recipe);
+            var savedIngredient = savedRecipe.getIngredientById(id);
 
-            return ingredientToIngredientCommand.convert(
-                savedRecipe.getIngredients()
-                           .stream()
-                           .filter(ingredient -> ingredient.getId().equals(id))
-                           .findFirst()
-                           .orElse(null)
-            );
+            if (!savedIngredient.isPresent()) {
+                savedIngredient = savedRecipe.getIngredients()
+                                             .stream()
+                                             .filter(
+                                                 i -> i.getDescription()
+                                                       .equals(command.getDescription())
+                                             )
+                                             .filter(i -> i.getAmount().equals(command.getAmount()))
+                                             .filter(
+                                                 i -> i.getUom()
+                                                       .getId()
+                                                       .equals(command.getUom().getId())
+                                             )
+                                             .findFirst();
+            }
+
+            return ingredientToIngredientCommand.convert(savedIngredient.orElse(null));
         }
     }
 

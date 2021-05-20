@@ -28,9 +28,12 @@ public class IngredientCommand {
     public String toString() {
         var df1 = new DecimalFormat("0");
         var df2 = new DecimalFormat("0.000");
+        var amountIs1 = (amount != null) && (amount.compareTo(BigDecimal.valueOf(1)) == 0);
         var result = "";
 
-        if (amount != null) {
+        if (amount != null && !((uom != null) && (uom.getDescription() != null)
+                && (uom.getDescription().equals("dash") || uom.getDescription().equals("pinch"))
+                && amountIs1)) {
             if (amount.doubleValue() % 1 == 0) {
                 result += df1.format(amount);
             } else {
@@ -56,13 +59,19 @@ public class IngredientCommand {
         }
 
         if (uom != null) {
-            if (uom.getDescription().equals("dash")) {
-                result += "a ";
+            if (uom.getDescription() != null) {
+                if ((uom.getDescription().equals("dash") || uom.getDescription().equals("pinch"))
+                        && amountIs1) {
+                    result += "a ";
+                }
+
+                result += uom.getDescription();
             }
 
-            result += uom.getDescription();
-
             if (amount != null && amount.compareTo(BigDecimal.valueOf(1)) != 0) {
+                if (uom.getDescription().charAt(uom.getDescription().length() - 1) == 'h') {
+                    result += "e";
+                }
                 result += "s";
             }
 

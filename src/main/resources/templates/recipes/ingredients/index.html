@@ -55,6 +55,8 @@
                   </tbody>
                 </table>
               </div>
+              <a th:href="'/recipes/' + ${recipe.id} + '/ingredients/new'"
+                 class="btn btn-primary">New</a>
               <a th:href="'/index'" class="btn btn-primary">Home</a>
               <a th:href="'/recipes/' + ${recipe.id}"
                  class="btn btn-primary">Recipe</a>

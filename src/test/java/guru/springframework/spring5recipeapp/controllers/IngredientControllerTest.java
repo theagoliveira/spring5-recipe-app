@@ -94,6 +94,21 @@ class IngredientControllerTest {
     }
 
     @Test
+    void newIngredient() throws Exception {
+        // when
+        when(recipeService.findCommandById(anyLong())).thenReturn(new RecipeCommand());
+        when(unitOfMeasureService.findAllCommands()).thenReturn(new HashSet<>());
+        mockMvc.perform(get("/recipes/1/ingredients/new"))
+               .andExpect(status().isOk())
+               .andExpect(view().name("recipes/ingredients/form"))
+               .andExpect(model().attributeExists("ingredient"))
+               .andExpect(model().attributeExists("uoms"));
+
+        // then
+        verify(unitOfMeasureService).findAllCommands();
+    }
+
+    @Test
     void editIngredient() throws Exception {
         // given
         var ingredientCommand = new IngredientCommand();
@@ -130,7 +145,7 @@ class IngredientControllerTest {
                                            .param("description", DESCRIPTION)
         )
                .andExpect(status().is3xxRedirection())
-               .andExpect(view().name("redirect:/recipes/ingredients/1"));
+               .andExpect(view().name("redirect:/recipes/1/ingredients/1"));
     }
 
 }

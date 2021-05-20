@@ -78,7 +78,7 @@ public class DataLoader implements CommandLineRunner {
         cilantro.setUom(tbspUom);
 
         var freshlyGratedBlackPepper = new Ingredient();
-        freshlyGratedBlackPepper.setAmount(null);
+        freshlyGratedBlackPepper.setAmount(BigDecimal.valueOf(1.0));
         freshlyGratedBlackPepper.setDescription("freshly grated black pepper");
         freshlyGratedBlackPepper.setUom(dashUom);
 
@@ -128,7 +128,7 @@ public class DataLoader implements CommandLineRunner {
         cilantroCopy.setUom(tbspUom);
 
         var freshlyGratedBlackPepperCopy = new Ingredient();
-        freshlyGratedBlackPepperCopy.setAmount(null);
+        freshlyGratedBlackPepperCopy.setAmount(BigDecimal.valueOf(1.0));
         freshlyGratedBlackPepperCopy.setDescription("freshly grated black pepper");
         freshlyGratedBlackPepperCopy.setUom(dashUom);
 
