@@ -22,7 +22,8 @@ class IngredientToIngredientCommandTest {
     public static final Long UOM_ID = 5L;
     public static final String UOM_DESCRIPTION = "uomDescription";
     public static final UnitOfMeasure UOM = new UnitOfMeasure(UOM_ID, UOM_DESCRIPTION);
-    public static final Recipe RECIPE = new Recipe();
+    public static final Long RECIPE_ID = 99L;
+    public static final Recipe RECIPE = new Recipe(RECIPE_ID);
 
     IngredientToIngredientCommand converter;
 
@@ -62,16 +63,16 @@ class IngredientToIngredientCommandTest {
         assertEquals(AMOUNT, ingredientCommand.getAmount());
         assertEquals(UOM_ID, ingredientCommand.getUom().getId());
         assertEquals(UOM_DESCRIPTION, ingredientCommand.getUom().getDescription());
+        assertEquals(RECIPE_ID, ingredientCommand.getRecipeId());
     }
 
     @Test
-    void convertWithNullUom() {
+    void convertWithNullUomAndRecipe() {
         // given
         Ingredient ingredient = new Ingredient();
         ingredient.setId(ID);
         ingredient.setDescription(DESCRIPTION);
         ingredient.setAmount(AMOUNT);
-        ingredient.setRecipe(RECIPE);
 
         // when
         IngredientCommand ingredientCommand = converter.convert(ingredient);
@@ -79,6 +80,7 @@ class IngredientToIngredientCommandTest {
         // then
         assertNotNull(ingredientCommand);
         assertNull(ingredientCommand.getUom());
+        assertNull(ingredientCommand.getRecipeId());
         assertEquals(ID, ingredientCommand.getId());
         assertEquals(DESCRIPTION, ingredientCommand.getDescription());
         assertEquals(AMOUNT, ingredientCommand.getAmount());

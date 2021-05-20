@@ -53,6 +53,10 @@
                 </tbody>
               </table>
               <a th:href="'/index'" class="btn btn-primary">Home</a>
+              <a class="btn btn-primary"
+                 th:href="'/recipes/' + ${ingredient.recipeId} + '/ingredients/' + ${ingredient.id} + '/edit'">Edit</a>
+              <a class="btn btn-primary"
+                 th:href="'/recipes/' + ${ingredient.recipeId} + '/ingredients/' + ${ingredient.id} + '/delete'">Delete</a>
               <a th:href="'/recipes/' + ${ingredient.recipeId} + '/ingredients'"
                  class="btn btn-primary">Ingredients</a>
               <a th:href="'/recipes/' + ${ingredient.recipeId}"

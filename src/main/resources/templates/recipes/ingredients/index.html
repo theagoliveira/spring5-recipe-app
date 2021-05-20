@@ -42,7 +42,7 @@
                     <tr th:each="ingredient : ${recipe.ingredients}">
                       <th scope="row">
                         <a th:text="${ingredient.id}"
-                           th:href="'/recipes/' + ${recipe.id} + '/ingredients/' + ${ingredient.id}">TEXT</a>
+                           th:href="'/recipes/' + ${recipe.id} + '/ingredients/' + ${ingredient.id}">ID</a>
                       </th>
                       <td th:text="${ingredient}">TEXT</td>
                       <td><a
