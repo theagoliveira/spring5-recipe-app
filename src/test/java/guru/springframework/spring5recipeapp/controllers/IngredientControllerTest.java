@@ -148,4 +148,14 @@ class IngredientControllerTest {
                .andExpect(view().name("redirect:/recipes/1/ingredients/1"));
     }
 
+    @Test
+    void destroyIngredient() throws Exception {
+        // then
+        mockMvc.perform(get("/recipes/1/ingredients/1/delete"))
+               .andExpect(status().is3xxRedirection())
+               .andExpect(view().name("redirect:/recipes/1/ingredients"));
+
+        verify(ingredientService).deleteByIdAndRecipeId(anyLong(), anyLong());
+    }
+
 }

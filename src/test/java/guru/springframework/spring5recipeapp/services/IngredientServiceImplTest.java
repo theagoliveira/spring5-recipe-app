@@ -152,7 +152,7 @@ class IngredientServiceImplTest {
         assertEquals(UOM_ID, savedCommand.getUom().getId());
         assertEquals(DESCRIPTION, savedCommand.getUom().getDescription());
         verify(recipeRepository).findById(anyLong());
-        verify(recipeRepository).save(any());
+        verify(recipeRepository).save(any(Recipe.class));
         verify(unitOfMeasureRepository, never()).findById(anyLong());
     }
 
@@ -179,7 +179,7 @@ class IngredientServiceImplTest {
         // then
         assertNull(savedCommand);
         verify(recipeRepository).findById(anyLong());
-        verify(recipeRepository).save(any());
+        verify(recipeRepository).save(any(Recipe.class));
         verify(unitOfMeasureRepository, never()).findById(anyLong());
     }
 
@@ -213,7 +213,7 @@ class IngredientServiceImplTest {
         // then
         assertNull(savedCommand);
         verify(recipeRepository).findById(anyLong());
-        verify(recipeRepository).save(any());
+        verify(recipeRepository).save(any(Recipe.class));
         verify(unitOfMeasureRepository).findById(anyLong());
     }
 
@@ -244,7 +244,7 @@ class IngredientServiceImplTest {
         // then
         assertEquals(COMMAND_ID, savedCommand.getId());
         verify(recipeRepository).findById(anyLong());
-        verify(recipeRepository).save(any());
+        verify(recipeRepository).save(any(Recipe.class));
         verify(unitOfMeasureRepository, never()).findById(anyLong());
     }
 
@@ -279,8 +279,30 @@ class IngredientServiceImplTest {
         // then
         assertEquals(COMMAND_ID, savedCommand.getId());
         verify(recipeRepository).findById(anyLong());
-        verify(recipeRepository).save(any());
+        verify(recipeRepository).save(any(Recipe.class));
         verify(unitOfMeasureRepository).findById(anyLong());
+    }
+
+    @Test
+    void deleteById() {
+        // given
+        var ingredient = new Ingredient();
+        ingredient.setId(INGREDIENT_ID);
+
+        Recipe recipe = new Recipe();
+        recipe.setId(RECIPE_ID);
+        recipe.addIngredient(ingredient);
+        ingredient.setRecipe(recipe);
+
+        Optional<Recipe> optionalRecipe = Optional.of(recipe);
+
+        // when
+        when(recipeRepository.findById(anyLong())).thenReturn(optionalRecipe);
+        ingredientService.deleteByIdAndRecipeId(INGREDIENT_ID, RECIPE_ID);
+
+        // then
+        verify(recipeRepository).findById(anyLong());
+        verify(recipeRepository).save(any(Recipe.class));
     }
 
 }

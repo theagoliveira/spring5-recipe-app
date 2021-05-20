@@ -19,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 public class IngredientServiceImpl implements IngredientService {
 
     private static final String NOT_FOUND = " not found.";
+
     RecipeRepository recipeRepository;
     UnitOfMeasureRepository unitOfMeasureRepository;
     IngredientToIngredientCommand ingredientToIngredientCommand;
@@ -105,6 +106,27 @@ public class IngredientServiceImpl implements IngredientService {
             }
 
             return ingredientToIngredientCommand.convert(savedIngredient.orElse(null));
+        }
+    }
+
+    @Override
+    public void deleteByIdAndRecipeId(Long id, Long recipeId) {
+        var optionalRecipe = recipeRepository.findById(recipeId);
+
+        if (optionalRecipe.isPresent()) {
+            var recipe = optionalRecipe.get();
+            var optionalIngredient = recipe.getIngredientById(id);
+
+            if (optionalIngredient.isPresent()) {
+                var ingredient = optionalIngredient.get();
+                ingredient.setRecipe(null);
+                recipe.getIngredients().remove(ingredient);
+                recipeRepository.save(recipe);
+            } else {
+                log.debug("Ingredient with ID " + id + NOT_FOUND);
+            }
+        } else {
+            log.debug("Recipe with ID " + id + NOT_FOUND);
         }
     }
 
