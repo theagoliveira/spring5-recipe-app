@@ -31,6 +31,8 @@ class RecipeToRecipeCommandTest {
     public static final Long NOTES_ID = 5L;
     public static final String RECIPE_NOTES = "recipeNotes";
     public static final Notes NOTES = new Notes(NOTES_ID, RECIPE_NOTES);
+    private static final String IMAGE_TEXT = "imageText";
+    private static final byte[] IMAGE_TEXT_BYTES = IMAGE_TEXT.getBytes();
     public static final Long INGREDIENT1_ID = 8L;
     public static final String INGREDIENT1_DESCRIPTION = "ingredient1Description";
     public static final BigDecimal INGREDIENT1_AMOUNT = BigDecimal.valueOf(1.5);
@@ -85,6 +87,15 @@ class RecipeToRecipeCommandTest {
         recipe.setDirections(DIRECTIONS);
         recipe.setDifficulty(DIFFICULTY);
         recipe.setNotes(NOTES);
+
+        var boxedBytes = new Byte[IMAGE_TEXT_BYTES.length];
+        var i = 0;
+        for (byte b : IMAGE_TEXT_BYTES) {
+            boxedBytes[i++] = b;
+        }
+
+        recipe.setImage(boxedBytes);
+
         recipe.getIngredients().add(INGREDIENT1);
         recipe.getIngredients().add(INGREDIENT2);
         recipe.getCategories().add(CATEGORY1);
@@ -108,6 +119,7 @@ class RecipeToRecipeCommandTest {
         assertEquals(URL, recipeCommand.getUrl());
         assertEquals(DIRECTIONS, recipeCommand.getDirections());
         assertEquals(DIFFICULTY, recipeCommand.getDifficulty());
+        assertEquals(IMAGE_TEXT_BYTES.length, recipeCommand.getImage().length);
         assertEquals(NOTES_ID, recipeCommand.getNotes().getId());
         assertEquals(RECIPE_NOTES, recipeCommand.getNotes().getRecipeNotes());
         assertEquals(2, recipeCommand.getIngredients().size());
@@ -129,6 +141,14 @@ class RecipeToRecipeCommandTest {
         recipe.setDirections(DIRECTIONS);
         recipe.setDifficulty(DIFFICULTY);
 
+        var boxedBytes = new Byte[IMAGE_TEXT_BYTES.length];
+        var i = 0;
+        for (byte b : IMAGE_TEXT_BYTES) {
+            boxedBytes[i++] = b;
+        }
+
+        recipe.setImage(boxedBytes);
+
         // when
         RecipeCommand recipeCommand = converter.convert(recipe);
 
@@ -147,6 +167,7 @@ class RecipeToRecipeCommandTest {
         assertEquals(URL, recipeCommand.getUrl());
         assertEquals(DIRECTIONS, recipeCommand.getDirections());
         assertEquals(DIFFICULTY, recipeCommand.getDifficulty());
+        assertEquals(IMAGE_TEXT_BYTES.length, recipeCommand.getImage().length);
         assertEquals(0, recipeCommand.getIngredients().size());
         assertEquals(0, recipeCommand.getCategories().size());
     }

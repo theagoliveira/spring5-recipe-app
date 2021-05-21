@@ -25,7 +25,6 @@ public class ImageServiceImpl implements ImageService {
         if (optionalRecipe.isPresent()) {
             try {
                 var recipe = optionalRecipe.get();
-
                 var fileBytes = file.getBytes();
                 var boxedFileBytes = new Byte[fileBytes.length];
                 var i = 0;

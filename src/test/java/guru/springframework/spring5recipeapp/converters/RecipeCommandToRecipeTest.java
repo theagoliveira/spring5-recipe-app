@@ -31,6 +31,8 @@ class RecipeCommandToRecipeTest {
     public static final Long NOTES_ID = 5L;
     public static final String RECIPE_NOTES = "recipeNotes";
     public static final NotesCommand NOTES = new NotesCommand(NOTES_ID, RECIPE_NOTES);
+    private static final String IMAGE_TEXT = "imageText";
+    private static final byte[] IMAGE_TEXT_BYTES = IMAGE_TEXT.getBytes();
     public static final Long INGREDIENT1_ID = 8L;
     public static final String INGREDIENT1_DESCRIPTION = "ingredient1Description";
     public static final BigDecimal INGREDIENT1_AMOUNT = BigDecimal.valueOf(1.5);
@@ -89,6 +91,15 @@ class RecipeCommandToRecipeTest {
         command.setDirections(DIRECTIONS);
         command.setDifficulty(DIFFICULTY);
         command.setNotes(NOTES);
+
+        var boxedBytes = new Byte[IMAGE_TEXT_BYTES.length];
+        var i = 0;
+        for (byte b : IMAGE_TEXT_BYTES) {
+            boxedBytes[i++] = b;
+        }
+
+        command.setImage(boxedBytes);
+
         command.getIngredients().add(INGREDIENT1);
         command.getIngredients().add(INGREDIENT2);
         command.getCategories().add(CATEGORY1);
@@ -112,6 +123,7 @@ class RecipeCommandToRecipeTest {
         assertEquals(URL, recipe.getUrl());
         assertEquals(DIRECTIONS, recipe.getDirections());
         assertEquals(DIFFICULTY, recipe.getDifficulty());
+        assertEquals(IMAGE_TEXT_BYTES.length, recipe.getImage().length);
         assertEquals(NOTES_ID, recipe.getNotes().getId());
         assertEquals(RECIPE_NOTES, recipe.getNotes().getRecipeNotes());
         assertEquals(2, recipe.getIngredients().size());
@@ -133,6 +145,14 @@ class RecipeCommandToRecipeTest {
         command.setDirections(DIRECTIONS);
         command.setDifficulty(DIFFICULTY);
 
+        var boxedBytes = new Byte[IMAGE_TEXT_BYTES.length];
+        var i = 0;
+        for (byte b : IMAGE_TEXT_BYTES) {
+            boxedBytes[i++] = b;
+        }
+
+        command.setImage(boxedBytes);
+
         // when
         Recipe recipe = converter.convert(command);
 
@@ -151,6 +171,7 @@ class RecipeCommandToRecipeTest {
         assertEquals(URL, recipe.getUrl());
         assertEquals(DIRECTIONS, recipe.getDirections());
         assertEquals(DIFFICULTY, recipe.getDifficulty());
+        assertEquals(IMAGE_TEXT_BYTES.length, recipe.getImage().length);
         assertEquals(0, recipe.getIngredients().size());
         assertEquals(0, recipe.getCategories().size());
     }
