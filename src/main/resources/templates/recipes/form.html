@@ -52,15 +52,16 @@
                   </div>
                 </div>
                 <div class="row mt-3">
-                  <!-- TODO: <div class="col-md-3 form-group">
+                  <div class="col-md-3 form-group">
                     <label for="difficulty">Difficulty</label>
-                    <select class="form-control">
-                      <option th:each="difficulty : ${difficulties}"
+                    <select class="form-control" th:field="*{difficulty}">
+                      <option th:each="difficulty : ${T(guru.springframework.spring5recipeapp.domain.Difficulty).values()}"
+                              th:value="${difficulty.name()}"
                               th:text="${difficulty}">
                         TEXT
                       </option>
                     </select>
-                  </div> -->
+                  </div>
                   <div class="col-md-3 form-group">
                     <label for="prepTime">Prep Time</label>
                     <input type="text" class="form-control"
