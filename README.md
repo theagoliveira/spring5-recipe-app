@@ -1,3 +1,3 @@
 # Spring Boot Recipes Application
 
-TODO: Add description.
+TODO: Add project description.
