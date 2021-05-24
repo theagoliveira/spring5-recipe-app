@@ -32,19 +32,20 @@
               <div class="card-body text-dark">
                 <div class="row">
                   <div class="col-md-12">
-                    <label for="name">Name</label>
+                    <label th:text="#{recipe.name}" for="name">Name</label>
                     <input type="text" class="form-control" th:field="*{name}">
                   </div>
                 </div>
                 <div class="row mt-3">
                   <div class="col-md-3">
-                    <label for="source">Source</label>
+                    <label th:text="#{recipe.source}"
+                           for="source">Source</label>
                     <input type="text" class="form-control"
                            th:field="*{source}">
                   </div>
                   <div class="col-md-9"
                        th:class="${#fields.hasErrors('url')} ? 'col-md-9 has-error' : 'col-md-9'">
-                    <label for="url">URL</label>
+                    <label th:text="#{recipe.url}" for="url">URL</label>
                     <input type="text" class="form-control" th:field="*{url}"
                            th:class="${#fields.hasErrors('url')} ? 'form-control is-invalid' : 'form-control'">
                     <div class="invalid-feedback"
@@ -63,7 +64,8 @@
                 <div class="row mt-3">
                   <div class="col-md-12"
                        th:class="${#fields.hasErrors('description')} ? 'col-md-12 has-error' : 'col-md-12'">
-                    <label for="description">Description</label>
+                    <label th:text="#{recipe.description}"
+                           for="description">Description</label>
                     <textarea type="text" class="form-control"
                               th:field="*{description}"
                               th:class="${#fields.hasErrors('description')} ? 'form-control is-invalid' : 'form-control'"></textarea>
@@ -82,7 +84,8 @@
                 </div>
                 <div class="row mt-3">
                   <div class="col-md-3">
-                    <label for="difficulty">Difficulty</label>
+                    <label th:text="#{recipe.difficulty}"
+                           for="difficulty">Difficulty</label>
                     <select class="form-control" th:field="*{difficulty}">
                       <option th:each="difficulty : ${T(guru.springframework.spring5recipeapp.domain.Difficulty).values()}"
                               th:value="${difficulty.name()}"
@@ -93,7 +96,8 @@
                   </div>
                   <div class="col-md-3"
                        th:class="${#fields.hasErrors('prepTime')} ? 'col-md-3 has-error' : 'col-md-3'">
-                    <label for="prepTime">Prep Time</label>
+                    <label th:text="#{recipe.prepTime}" for="prepTime">Prep
+                      Time</label>
                     <input type="text" class="form-control"
                            th:field="*{prepTime}"
                            th:class="${#fields.hasErrors('prepTime')} ? 'form-control is-invalid' : 'form-control'">
@@ -111,7 +115,8 @@
                   </div>
                   <div class="col-md-3"
                        th:class="${#fields.hasErrors('cookTime')} ? 'col-md-3 has-error' : 'col-md-3'">
-                    <label for="cookTime">Cook Time</label>
+                    <label th:text="#{recipe.cookTime}" for="cookTime">Cook
+                      Time</label>
                     <input type="text" class="form-control"
                            th:field="*{cookTime}"
                            th:class="${#fields.hasErrors('cookTime')} ? 'form-control is-invalid' : 'form-control'">
@@ -129,7 +134,8 @@
                   </div>
                   <div class="col-md-3"
                        th:class="${#fields.hasErrors('servings')} ? 'col-md-3 has-error' : 'col-md-3'">
-                    <label for="servings">Servings</label>
+                    <label th:text="#{recipe.servings}"
+                           for="servings">Servings</label>
                     <input type="text" class="form-control"
                            th:field="*{servings}"
                            th:class="${#fields.hasErrors('servings')} ? 'form-control is-invalid' : 'form-control'">
@@ -148,7 +154,7 @@
                 </div>
                 <!-- TODO: <div class="row mt-3">
                   <div class="col-md-3">
-                    <label for="categories">Categories</label>
+                    <label th:text="#{recipe.categories}" for="categories">Categories</label>
                     <select multiple class="form-control">
                       <option th:each="category : ${categories}"
                               th:text="${category.description}">
@@ -159,7 +165,8 @@
                 </div> -->
                 <div class="row mt-3">
                   <div class="col-md-12">
-                    <label for="notes.recipeNotes">Notes</label>
+                    <label th:text="#{recipe.notes}"
+                           for="notes.recipeNotes">Notes</label>
                     <textarea type="text" class="form-control"
                               th:field="*{notes.recipeNotes}"></textarea>
                   </div>
@@ -167,7 +174,8 @@
                 <div class="row mt-3 mb-3">
                   <div class="col-md-12"
                        th:class="${#fields.hasErrors('directions')} ? 'col-md-12 has-error' : 'col-md-12'">
-                    <label for="directions">Directions</label>
+                    <label th:text="#{recipe.directions}"
+                           for="directions">Directions</label>
                     <textarea type="text" class="form-control"
                               th:field="*{directions}"
                               th:class="${#fields.hasErrors('directions')} ? 'form-control is-invalid' : 'form-control'"></textarea>
