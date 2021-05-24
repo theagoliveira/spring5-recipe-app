@@ -23,6 +23,7 @@ import org.springframework.ui.Model;
 
 import guru.springframework.spring5recipeapp.commands.RecipeCommand;
 import guru.springframework.spring5recipeapp.domain.Recipe;
+import guru.springframework.spring5recipeapp.exceptions.NotFoundException;
 import guru.springframework.spring5recipeapp.services.RecipeServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
@@ -61,6 +62,15 @@ class RecipeControllerTest {
                .andExpect(status().isOk())
                .andExpect(view().name("recipes/show"))
                .andExpect(model().attributeExists("recipe"));
+    }
+
+    @Test
+    void showRecipeNotFound() throws Exception {
+        // when
+        when(recipeService.findById(1L)).thenThrow(NotFoundException.class);
+
+        // then
+        mockMvc.perform(get("/recipes/1")).andExpect(status().isNotFound());
     }
 
     @Test

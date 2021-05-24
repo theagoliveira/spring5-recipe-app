@@ -2,7 +2,6 @@ package guru.springframework.spring5recipeapp.controllers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -56,8 +55,8 @@ class IndexControllerTest {
 
         // then
         assertEquals("index", indexController.getIndexPage(model));
-        verify(recipeService, times(1)).findAll();
-        verify(model, times(1)).addAttribute(eq("recipes"), argumentCaptor.capture());
+        verify(recipeService).findAll();
+        verify(model).addAttribute(eq("recipes"), argumentCaptor.capture());
 
         Set<Recipe> capturedSet = argumentCaptor.getValue();
         assertEquals(2, capturedSet.size());
