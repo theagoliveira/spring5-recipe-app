@@ -68,7 +68,7 @@
                 </div>
                 <div class="col-md-6" style="text-align: center;">
                   <img src="../../static/images/test.jpg"
-                       th:src="@{'/recipes/' + ${recipe.id} + '/image/'}"
+                       th:src="@{'/recipes/' + ${recipe.id} + '/image'}"
                        alt="Recipe picture" width="200" height="200">
                   <br>
                   <a th:href="'/recipes/' + ${recipe.id} + '/image/edit'"

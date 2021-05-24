@@ -64,7 +64,7 @@ class ImageControllerTest {
 
         // when
         when(recipeService.findCommandById(anyLong())).thenReturn(recipeCommand);
-        MockHttpServletResponse response = mockMvc.perform(get("/recipes/1/image/"))
+        MockHttpServletResponse response = mockMvc.perform(get("/recipes/1/image"))
                                                   .andExpect(status().isOk())
                                                   .andReturn()
                                                   .getResponse();
@@ -98,7 +98,7 @@ class ImageControllerTest {
         );
 
         // when
-        mockMvc.perform(multipart("/recipes/1/image/").file(multipartFile))
+        mockMvc.perform(multipart("/recipes/1/image").file(multipartFile))
                .andExpect(status().is3xxRedirection())
                .andExpect(header().string("Location", "/recipes/1"));
 

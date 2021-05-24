@@ -33,7 +33,7 @@ public class ImageController {
         this.recipeService = recipeService;
     }
 
-    @GetMapping("/")
+    @GetMapping
     public void show(@PathVariable Long recipeId, HttpServletResponse response) throws IOException {
         var recipeCommand = recipeService.findCommandById(recipeId);
         var recipeImage = recipeCommand.getImage();
@@ -57,7 +57,7 @@ public class ImageController {
         return "recipes/image/form";
     }
 
-    @PostMapping("/")
+    @PostMapping
     public String upload(@PathVariable Long recipeId,
                          @RequestParam("imagefile") MultipartFile file) {
         log.info("Received a file.");
