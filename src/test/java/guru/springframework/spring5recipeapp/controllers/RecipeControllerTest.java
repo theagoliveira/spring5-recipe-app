@@ -31,6 +31,11 @@ class RecipeControllerTest {
 
     private static final Long ID = 2L;
     private static final String DESCRIPTION = "description";
+    private static final Integer PREP_TIME = 10;
+    private static final Integer COOK_TIME = 30;
+    private static final Integer SERVINGS = 4;
+    private static final String URL = "https://www.example.com";
+    private static final String DIRECTIONS = "directions";
 
     @Mock
     RecipeServiceImpl recipeService;
@@ -115,6 +120,11 @@ class RecipeControllerTest {
         // given
         var command = new RecipeCommand();
         command.setId(ID);
+        command.setPrepTime(PREP_TIME);
+        command.setCookTime(COOK_TIME);
+        command.setServings(SERVINGS);
+        command.setUrl(URL);
+        command.setDirections(DIRECTIONS);
 
         // when
         when(recipeService.saveCommand(any())).thenReturn(command);
@@ -124,7 +134,27 @@ class RecipeControllerTest {
             post("/recipes").contentType(MediaType.APPLICATION_FORM_URLENCODED)
                             .param("id", "")
                             .param("description", DESCRIPTION)
+                            .param("prepTime", PREP_TIME.toString())
+                            .param("cookTime", COOK_TIME.toString())
+                            .param("servings", SERVINGS.toString())
+                            .param("url", URL)
+                            .param("directions", DIRECTIONS)
         ).andExpect(status().is3xxRedirection()).andExpect(view().name("redirect:/recipes/2"));
+    }
+
+    @Test
+    void createOrUpdateRecipeWithValidationFail() throws Exception {
+        // then
+        mockMvc.perform(
+            post("/recipes").contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                            .param("id", "")
+                            .param("description", DESCRIPTION)
+                            .param("prepTime", PREP_TIME.toString())
+                            .param("cookTime", COOK_TIME.toString())
+                            .param("servings", "200")
+                            .param("url", URL)
+                            .param("directions", DIRECTIONS)
+        ).andExpect(status().isOk()).andExpect(view().name("recipes/form"));
     }
 
     @Test

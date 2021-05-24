@@ -1,7 +1,11 @@
 package guru.springframework.spring5recipeapp.controllers;
 
+import javax.validation.Valid;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -10,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.http.HttpStatus;
 
 import guru.springframework.spring5recipeapp.commands.RecipeCommand;
 import guru.springframework.spring5recipeapp.exceptions.NotFoundException;
@@ -54,7 +57,14 @@ public class RecipeController {
     }
 
     @PostMapping
-    public String createOrUpdateRecipe(@ModelAttribute RecipeCommand command) {
+    public String createOrUpdateRecipe(@Valid @ModelAttribute RecipeCommand command,
+                                       BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            bindingResult.getAllErrors().forEach(objectError -> log.debug(objectError.toString()));
+
+            return "recipes/form";
+        }
+
         RecipeCommand savedCommand = recipeService.saveCommand(command);
 
         return "redirect:/recipes/" + savedCommand.getId();
