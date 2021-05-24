@@ -71,7 +71,7 @@ class RecipeServiceImplTest {
             recipeService.findById(ID);
         });
 
-        assertEquals("Recipe not found.", exception.getMessage());
+        assertEquals("Recipe with ID " + ID + " not found.", exception.getMessage());
         verify(recipeRepository).findById(anyLong());
         verify(recipeRepository, never()).findAll();
     }
