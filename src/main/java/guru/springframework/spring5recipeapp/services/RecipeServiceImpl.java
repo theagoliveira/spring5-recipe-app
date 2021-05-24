@@ -40,7 +40,7 @@ public class RecipeServiceImpl implements RecipeService {
             return optionalRecipe.get();
         }
 
-        throw new NotFoundException("Recipe not found.");
+        throw new NotFoundException("Recipe with ID " + id + " not found.");
     }
 
     @Override
