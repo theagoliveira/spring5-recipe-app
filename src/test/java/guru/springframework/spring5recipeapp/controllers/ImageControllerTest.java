@@ -10,6 +10,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -45,7 +46,9 @@ class ImageControllerTest {
         MockitoAnnotations.openMocks(this);
 
         imageController = new ImageController(imageService, recipeService);
-        mockMvc = MockMvcBuilders.standaloneSetup(imageController).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(imageController)
+                                 .setControllerAdvice(new ControllerExceptionHandler())
+                                 .build();
     }
 
     @Test
@@ -72,6 +75,14 @@ class ImageControllerTest {
 
         // then
         assertEquals(IMAGE_TEXT_BYTES.length, responseBytes.length);
+    }
+
+    @Test
+    void showWrongIDFormat() throws Exception {
+        // then
+        mockMvc.perform(get("/recipes/abc/image"))
+               .andExpect(view().name("400"))
+               .andExpect(status().isBadRequest());
     }
 
     @Test
