@@ -27,7 +27,7 @@ jobs:
           command: mvn verify
 
       - codecov/upload:
-          file: target/my-reports/index.html
+          file: target/my-reports/jacoco.xml
 
 workflows:
   # Below is the definition of your workflow.
