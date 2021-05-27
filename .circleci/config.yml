@@ -2,6 +2,9 @@
 # See: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
 
+orbs:
+  codecov: codecov/codecov@1.2.2
+
 jobs:
   # Below is the definition of your job to build and test your app, you can rename and customize it as you want.
   build-and-test:
@@ -21,11 +24,10 @@ jobs:
       # Then run your tests!
       - run:
           name: Test
-          command: mvn verify cobertura:cobertura
+          command: mvn verify
 
-      - run:
-          name: Send to CodeCov
-          command: bash <(curl -s https://codecov.io/bash)
+      - codecov/upload:
+          file: target/my-reports/index.html
 
 workflows:
   # Below is the definition of your workflow.
