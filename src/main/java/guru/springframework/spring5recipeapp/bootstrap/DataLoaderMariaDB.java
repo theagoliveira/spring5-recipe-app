@@ -6,10 +6,12 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
+import guru.springframework.spring5recipeapp.domain.Category;
 import guru.springframework.spring5recipeapp.domain.Difficulty;
 import guru.springframework.spring5recipeapp.domain.Ingredient;
 import guru.springframework.spring5recipeapp.domain.Notes;
 import guru.springframework.spring5recipeapp.domain.Recipe;
+import guru.springframework.spring5recipeapp.domain.UnitOfMeasure;
 import guru.springframework.spring5recipeapp.repositories.CategoryRepository;
 import guru.springframework.spring5recipeapp.repositories.RecipeRepository;
 import guru.springframework.spring5recipeapp.repositories.UnitOfMeasureRepository;
@@ -17,16 +19,16 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Component
-@Profile("default")
-public class DataLoader implements CommandLineRunner {
+@Profile({"dev", "prod"})
+public class DataLoaderMariaDB implements CommandLineRunner {
 
     private final RecipeRepository recipeRepository;
     private final CategoryRepository categoryRepository;
     private final UnitOfMeasureRepository unitOfMeasureRepository;
 
-    public DataLoader(RecipeRepository recipeRepository,
-                      UnitOfMeasureRepository unitOfMeasureRepository,
-                      CategoryRepository categoryRepository) {
+    public DataLoaderMariaDB(RecipeRepository recipeRepository,
+                             UnitOfMeasureRepository unitOfMeasureRepository,
+                             CategoryRepository categoryRepository) {
         this.recipeRepository = recipeRepository;
         this.unitOfMeasureRepository = unitOfMeasureRepository;
         this.categoryRepository = categoryRepository;
@@ -34,10 +36,77 @@ public class DataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        loadData();
+        if (categoryRepository.count() == 0L) {
+            log.debug("Loading categories...");
+            loadCategories();
+        } else {
+            log.debug("Categories already loaded.");
+        }
+
+        if (unitOfMeasureRepository.count() == 0L) {
+            log.debug("Loading units of measure...");
+            loadUnitsOfMeasure();
+        } else {
+            log.debug("Units of measure already loaded.");
+        }
+
+        if (recipeRepository.count() == 0L) {
+            log.debug("Loading recipes...");
+            loadRecipes();
+        } else {
+            log.debug("Recipes already loaded.");
+        }
     }
 
-    private void loadData() {
+    private void loadCategories() {
+        var cat1 = new Category();
+        cat1.setDescription("american");
+        categoryRepository.save(cat1);
+
+        var cat2 = new Category();
+        cat2.setDescription("italian");
+        categoryRepository.save(cat2);
+
+        var cat3 = new Category();
+        cat3.setDescription("mexican");
+        categoryRepository.save(cat3);
+
+        var cat4 = new Category();
+        cat4.setDescription("fast food");
+        categoryRepository.save(cat4);
+    }
+
+    private void loadUnitsOfMeasure() {
+        var uom1 = new UnitOfMeasure();
+        uom1.setDescription("teaspoon");
+        unitOfMeasureRepository.save(uom1);
+
+        var uom2 = new UnitOfMeasure();
+        uom2.setDescription("tablespoon");
+        unitOfMeasureRepository.save(uom2);
+
+        var uom3 = new UnitOfMeasure();
+        uom3.setDescription("cup");
+        unitOfMeasureRepository.save(uom3);
+
+        var uom4 = new UnitOfMeasure();
+        uom4.setDescription("pinch");
+        unitOfMeasureRepository.save(uom4);
+
+        var uom5 = new UnitOfMeasure();
+        uom5.setDescription("ounce");
+        unitOfMeasureRepository.save(uom5);
+
+        var uom6 = new UnitOfMeasure();
+        uom6.setDescription("pint");
+        unitOfMeasureRepository.save(uom6);
+
+        var uom7 = new UnitOfMeasure();
+        uom7.setDescription("dash");
+        unitOfMeasureRepository.save(uom7);
+    }
+
+    private void loadRecipes() {
         log.debug("Getting UnitOfMeasure and Category objects.");
 
         var tspUom = unitOfMeasureRepository.findByDescription("teaspoon").get();
