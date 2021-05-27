@@ -24,8 +24,8 @@ jobs:
           command: mvn verify cobertura:cobertura
 
       - run:
-        name: Send to CodeCov
-        command: bash <(curl -s https://codecov.io/bash)
+          name: Send to CodeCov
+          command: bash <(curl -s https://codecov.io/bash)
 
 workflows:
   # Below is the definition of your workflow.
