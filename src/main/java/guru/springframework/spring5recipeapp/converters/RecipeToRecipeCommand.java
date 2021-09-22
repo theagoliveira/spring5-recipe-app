@@ -34,6 +34,7 @@ public class RecipeToRecipeCommand implements Converter<Recipe, RecipeCommand> {
         }
 
         final var recipeCommand = new RecipeCommand();
+        String directions = source.getDirections() != null ? source.getDirections() : "";
         recipeCommand.setId(source.getId());
         recipeCommand.setName(source.getName());
         recipeCommand.setDescription(source.getDescription());
@@ -42,7 +43,7 @@ public class RecipeToRecipeCommand implements Converter<Recipe, RecipeCommand> {
         recipeCommand.setServings(source.getServings());
         recipeCommand.setSource(source.getSource());
         recipeCommand.setUrl(source.getUrl());
-        recipeCommand.setDirections(source.getDirections().replaceAll("<(/|)\\s*script\\s*>", ""));
+        recipeCommand.setDirections(directions.replaceAll("<(/|)\\s*script\\s*>", ""));
         recipeCommand.setDifficulty(source.getDifficulty());
         for (Ingredient ingredient : source.getIngredients()) {
             recipeCommand.getIngredients().add(ingredientToIngredientCommand.convert(ingredient));
